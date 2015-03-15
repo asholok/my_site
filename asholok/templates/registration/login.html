@@ -1,0 +1,14 @@
+{% load staticfiles%}
+<form action="{% url 'my_auth:login' %}" method="post" >
+{% csrf_token %}
+	<label>email: </label>
+	<input name="email">
+	<label>password: </label>
+	<input type="password" name="password" >
+	<input type="submit" value="Login" >
+</form>
+{% for name, p in available_backends.items %}
+	<a href="{% url 'social:begin' name %}?next={% url 'my_auth:social_check' %}">
+		<img src="{% static '' %}social\{{ name }}.png">
+	</a>
+{% endfor %}

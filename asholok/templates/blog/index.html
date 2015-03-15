@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} Blog {% endblock %}
+{% block content %}
+    {% if request.session.user_name %}
+    <a href="{% url 'blog:form' %}">Create</a>
+    {% endif %}
+    <h1>Welcome to My Blog</h1>
+    {% for post in posts_list %}
+    <div class="content_block" >
+        <a href="{% url 'blog:detail' post.slug %}"><h3>{{ post.title }}</h3></a>
+        {% if post.image %}
+            kkkk
+            <img src="{{post.image.url}}" class="img-thumbnail">
+        {% endif %}
+        <p>{{post.short_body}}</p>
+        <p>{{post.date}}</p>
+
+    </div>
+    {% endfor %}
+    {% if is_paginated %}
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li><a href="/blog?page={{page_obj.previous_page_number}}">previous</a></li>
+        {% endif %}
+        <li class="active"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+        {% if page_obj.has_next %}
+        <li><a href="/blog?page={{page_obj.next_page_number}}">next</a></li>
+        {% endif %}
+    </ul>
+    {% endif %} 
+{% endblock %}

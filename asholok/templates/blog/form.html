@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Create post {% endblock %}
+{% block content %}
+    {% if request.session.user_name %}
+
+    <h1>Create post</h1>
+    <form action="{{action}}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <ul>
+        {{ form.as_ul }}
+        </ul>
+        <input type="submit" value="Post" />
+    </form>
+    {% else %}
+        Wrong User!!!
+    {% endif %}
+{% endblock %} 
