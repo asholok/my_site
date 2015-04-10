@@ -5,26 +5,35 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/local.css' %}">
     {% block meta %}{% endblock %}
 </head>
-<body class="" >
-    <div class="navbar navbar-inverse navbar-static-top">
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container" >
             <a href="{% url 'home' %}" class="navbar-brand">Home</a> 
-            <a href="{% url 'blog:index' %}" class="navbar-brand">Blog</a> 
-            <a href="{% url 'convertor:index' %}" class="navbar-brand">Convertor</a> 
-        </div>
-        <div class="container">
-            {% if messages.error %} <p>{{ messages.error }}</p> {% endif %}
-            {% if request.session.user_name %} 
-                <form action="{% url 'my_auth:logout' %}" >
-                    {% csrf_token %}
-                    <label>You are: {{ request.session.user_name }} </label> 
-                    <input type="submit" value="logout" >
-                </form>
-            {% else %}
-                {% include 'registration/login.html' %}
-            {% endif %} 
+            <a href="{% url 'blog:index' %}" class="navbar-brand">Blog</a>
+            <a href="{% url 'convertor:index' %}" class="navbar-brand">Convertor</a>
+        
+            {% if messages.error %}
+                <script type="text/javascript"> alert({{ messages.error }}) </script>
+            {% endif %}
+            <div class="collapse navbar-collapse navHeaderCollapse">
+                <div class="nav navbar-nav navbar-right" >
+                <div class="login-container" >
+                {% if request.session.user_name %} 
+                    <form class="login-form" action="{% url 'my_auth:logout' %}" >
+                        {% csrf_token %}
+                        <label class="login-label">Hello: {{ request.session.user_name }} </label> 
+                        <input class="btn btn-default btn-xs" type="submit" value="logout" >
+                    </form>
+                {% else %}
+                        {% include 'registration/login.html' %}
+                        {% include 'registration/social_login.html' %}
+                {% endif %}
+                </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

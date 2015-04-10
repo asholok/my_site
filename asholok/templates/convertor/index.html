@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %} Convertor {% endblock %}
+{% block content %}
+
+<script type="text/javascript">
+    var DICT = {
+        {% for k, v in engine.currencies_available.items %}
+            "{{k}}": [
+                {% for x in v %}
+                    "{{x}}" {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ]
+            {% if not forloop.last %}, {% endif %}
+         {% endfor %}
+    };
+    
+    function pickCurrencies() {
+        var lang = document.getElementById("languages").value;
+        // rewrite currencies select if languages selected an empty field
+        if ( lang == "" ) { 
+            document.getElementById("currencies").innerHTML = "<option></option>";
+            return;
+        }
+        //
+        var list = DICT[lang]
+        var result = "<option value=\"\" ></option>\n";
+        var len = list.length;
+
+        for (var i = 0; i < len; i++) {
+            result += "<option value=\"" + list[i] + "\" >" + list[i] + "</option>\n"
+        };
+        document.getElementById("currencies").innerHTML = result;
+    }
+    function validateInput() {
+        var val = $('#converterNumber').val()
+        var reg = /^[0-9]+(\.[0-9]{1,2})?$/g;
+        var selectedCurrency = $('#currencies').find(':selected').text();
+
+        if ( reg.test(val) && selectedCurrency ) {
+            $('#submitConvert').prop('disabled', false);
+        } else {
+            $('#submitConvert').prop('disabled', true);
+        }
+    }
+
+    $(document).ready( function () {
+        $('#converterNumber').keyup( validateInput );
+    });    
+</script>
+
+{% if engine.result %}
+    <div class="result"> Result is: {{engine.result}} </div>
+{% endif %}
+
+<form role="form" name="converter" action="{% url 'convertor:results' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="language">language</label>
+        <!-- call validateInput() with perpes to desable convert button if languages selected an empty field -->
+        <select id="languages" name="language" onchange="pickCurrencies(); validateInput();">
+            <option value="" ></option>
+            {% for lang in engine.langs_available %}
+            <option value="{{lang}}">{{lang}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="currency">currency  </label>
+        <select id="currencies" name="currency" onchange="validateInput()" ></select>
+    </div>
+    <div class="form-group">
+        <div class="col-sx-4">
+            <input class="form-control" type="text" id="converterNumber" name="number" 
+                {% if engine.number %} 
+                    value="{{engine.number}}" 
+                {% else %}
+                    placeholder="{{engine.info}}" 
+                {% endif %}
+            >
+        </div>
+    </div>
+    <input class="btn btn-default" type="submit" disabled id="submitConvert" value="Convert">
+</form>
+{% endblock %}

@@ -5,10 +5,8 @@ import os
 
 
 def get_upload_path(instance, filename):
-    v = os.path.join(
+    return os.path.join(
         instance.author.user_mail, '{}_{}'.format(instance.slug, filename))
-    print 'ffff_{}'.format(v)
-    return v
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
