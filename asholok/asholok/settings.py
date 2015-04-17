@@ -59,6 +59,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
 )
 
@@ -82,17 +83,17 @@ WSGI_APPLICATION = 'asholok.wsgi.application'
 # LOGIN_REDIRECT_URL = '/my_auth/social_check/'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/my_auth/social_check/'
 
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = '892634964090025'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0bef1310d67e70a03c49a4692a6ffe75'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '323453820597-m7pjfb3n1tjobo7j281h7ik7dhjr61s8.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '66EGjMt1EM9bzphYbpEHIp_M'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = ''
-SOCIAL_AUTH_VK_OAUTH2_SECRET = ''
+SOCIAL_AUTH_VK_OAUTH2_KEY = '4732342'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'Pple9lGBG726PRf3C3bx'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
