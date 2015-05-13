@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% block title %} {{post.title}} {% endblock %}
 {% block content %}
-	<h1>{{post.title}}</h1>
-	<div class="info_block">
-		<ul>
-			<li>Author: {{post.author}}</li>
-			<li>Date: {{post.date}}</li>
-		</ul>
-	</div>
-	<div class="content_block" >
+	<div class="post" >
+		<div id="title">{{post.title}}</div>
+		<div class="subtext">
+			<p>Author: {{post.author}}</p>
+			<p>Published: {{post.date}}</p>
+		</div>
 		{% if post.image %}
-		<img src="{{post.image.url}}" class="img-thumbnail">
+		<img src="{{post.image.url}}" class="img">
 		{% endif %}
 		<p>{{post.body}}</p>
 	</div>

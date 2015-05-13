@@ -3,12 +3,18 @@
 {% block content %}
     {% if request.session.user_name %}
 
-    <h1>Create post</h1>
+    <div id="title">Create post</div>
     <form action="{{action}}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-        <ul>
-        {{ form.as_ul }}
-        </ul>
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }} 
+                    {% if field.field.required %} 
+                        <span class="required">* required</span> 
+                    {% endif %}<br>
+                {{ field }}
+            </div>
+        {% endfor %}
         <input type="submit" value="Post" />
     </form>
     {% else %}

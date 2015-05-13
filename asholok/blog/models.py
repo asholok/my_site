@@ -28,9 +28,6 @@ class Post(models.Model):
             self.slug = '{}_{}'.format(self.date, sample_slug)
         else:
             self.slug = sample_slug
-        try:
-            print 'obj is {}'.format(self.image)
-        except ValueError:
-            print 'Do not pass img'
+
         super(Post, self).save(*args, **kwargs)
         
