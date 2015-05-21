@@ -1,6 +1,7 @@
 from django.db import models
 from slugify import slugify
 from my_auth.models import User
+import datetime
 import os
 
 
@@ -31,3 +32,13 @@ class Post(models.Model):
 
         super(Post, self).save(*args, **kwargs)
         
+class Comment(models.Model):
+    author = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+    content = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return '{}_{}_at_{}'.format(self.author.user_mail, self.date, self.time)
+

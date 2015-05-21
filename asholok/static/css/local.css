@@ -21,8 +21,16 @@ body {
 	background-clip: padding-box;
 }
 
-.post {
+.post-field {
 	margin: 10px 16px 0 16px;
+}
+
+.comment-field {
+	margin: 16px 16px 0 16px;
+}
+
+.commentation-block {
+	width: 50%;
 }
 
 .img {

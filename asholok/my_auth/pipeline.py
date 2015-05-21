@@ -21,6 +21,5 @@ def check_user(strategy, details, response, user, *args, **kwargs):
             password = make_randome_str(),
         )
         new_user.save()
-    
-    print details
+
     return kwargs
