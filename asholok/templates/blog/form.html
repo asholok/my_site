@@ -3,19 +3,28 @@
 {% block content %}
     {% if request.session.user_name %}
 
-    <div id="title">Create post</div>
-    <form action="{{action}}" method="POST" enctype="multipart/form-data">
+    <div id="head-title">Create post</div>
+    <form class="form-horizontal" action="{{action}}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
         {% for field in form %}
             <div class="form-group">
-                {{ field.label_tag }} 
+                <label class="col-sm-2 control-label" for="{{field.name}}">{{field.label}}</label>
+
+                <div class="col-sm-5">
+                {% if field.name == 'body' %}
+                   {{field}}
+                {% else %}    
+                   <input class="form-control" type="{{field.field.widget.input_type}}" name="{{field.name}}">
+                {% endif %}
+                </div>
                     {% if field.field.required %} 
                         <span class="required">* required</span> 
                     {% endif %}<br>
-                {{ field }}
             </div>
         {% endfor %}
-        <input type="submit" value="Post" />
+        <div class="col-sm-2 control-label">
+            <input class="btn btn-default" type="submit" value="Post">
+        </div>
     </form>
     {% else %}
         Wrong User!!!

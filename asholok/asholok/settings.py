@@ -6,6 +6,10 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
+
+Need to install:
+    - django-simple-captcha
+    - python-social-auth
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
+    'captcha',
     'blog',
     'convertor',
     'my_auth',
@@ -97,6 +102,8 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = 'Pple9lGBG726PRf3C3bx'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
+
 
 DATABASES = {
     'default': {

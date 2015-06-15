@@ -27,8 +27,6 @@ class Detail(generic.DetailView):
         context = super(Detail, self).get_context_data(**kwargs)
         context['available_backends'] = PREPARED_BACKENDS
         context['comments'] = Comment.objects.filter(post_id=context['post'].id)
-        print '---'
-        print context['comments']
         # context['comments'] = Comment.objects.get()
 
         return context
@@ -48,8 +46,7 @@ class PostCreator(generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(PostCreator, self).get_context_data(**kwargs)
         context['action'] = reverse('blog:form')
-
-        #context['available_backends'] = PREPARED_BACKENDS
+        context['available_backends'] = PREPARED_BACKENDS
 
         return context
 
@@ -80,8 +77,7 @@ def create_comment(request):
         comment = Comment(
             author=User.objects.get(user_mail=request.session['user_mail']),
             post=Post.objects.get(id=request.POST['post_id']),
-            content=request.POST['comment']
-        )
+            content=request.POST['comment'])
         comment.save()
         
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

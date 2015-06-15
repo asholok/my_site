@@ -2,9 +2,11 @@
 {% block title %} Blog {% endblock %}
 {% block content %}
     {% if request.session.user_name %}
-    <a href="{% url 'blog:form' %}">Create</a>
+    <div align="right" style="margin-right: 16px;">
+        <a class="btn btn-default btn-xs" href="{% url 'blog:form' %}">Create Post</a>
+    </div>
     {% endif %}
-    <div id="title"> Welcome to My Blog</div>
+    <div id="head-title"> Welcome to My Blog</div>
     {% for post in posts_list %}
     <div class="post-block" >
         <p>

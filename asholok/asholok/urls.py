@@ -21,6 +21,7 @@ urlpatterns = patterns('',
 
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^captcha/', include('captcha.urls')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^convertor/', include('convertor.urls', namespace='convertor')),
     url(r'^my_auth/', include('my_auth.urls', namespace='my_auth')),

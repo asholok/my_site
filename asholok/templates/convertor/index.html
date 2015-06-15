@@ -15,10 +15,10 @@
     };
     
     function pickCurrencies() {
-        var lang = document.getElementById("languages").value;
+        var lang = $("#languages").val();
         // rewrite currencies select if languages selected an empty field
         if ( lang == "" ) { 
-            document.getElementById("currencies").innerHTML = "<option></option>";
+            $("#currencies").html("<option></option>");
             return;
         }
         //
@@ -29,7 +29,7 @@
         for (var i = 0; i < len; i++) {
             result += "<option value=\"" + list[i] + "\" >" + list[i] + "</option>\n"
         };
-        document.getElementById("currencies").innerHTML = result;
+        $("#currencies").html(result);
     }
     function validateInput() {
         var val = $('#converterNumber').val()
@@ -44,10 +44,10 @@
     }
 
     $(document).ready( function () {
-        $('#converterNumber').keyup( validateInput );
+        $('#converterNumber').keyup(validateInput);
     });    
 </script>
-<div id="title">Convertor</div>
+<div id="head-title">Convertor</div>
 <div class="convertor-block">
 {% if engine.result %}
     <div class="result"> Result is: {{engine.result}} </div>

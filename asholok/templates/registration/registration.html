@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Registration {% endblock %}
+{% block content %}
+    <script type="text/javascript">
+        function checkUserEmail() {
+            $.get("{% url 'my_auth:check_email' %}", 
+                {user_mail: $("#user_mail").val()}, // csrfmiddlewaretoken: {% csrf_token %}},
+                function(data) {
+                    if ( data == 'True' ) {
+                        $("#mail_img").html("<img src='{% static '' %}img/ok.png'>");
+                        $("#mail_status").val('');
+                    } else {
+                        $("#mail_img").html("<img src='{% static '' %}img/no.png'>");
+                        $("#mail_status").val('0');
+                    }
+                }
+            );
+        }
+
+        function validateForm() {
+            var userMail = $("#user_mail").val() == "";
+            var userName = $("#username").val() == "";
+            var password = $("#password").val() == "";
+            var confirmPassword = $("#confirmp_assword").val() == "";
+
+            if ( userMail || userName || password || confirmPassword ) {
+                $('#error').html("fill required field!");
+                return false;
+            };
+
+            if ( $("#mail_status").val() == '0') {
+                $('#error').html("User with this email alredy exist!");
+                return false;
+            };
+
+            if ( $("#password").val() != $("#confirmp_assword").val() ) {
+                $('#error').html("You not confirm a password!");
+                return false;
+            };
+            return true;
+        }
+
+        $(document).ready(function() { 
+            $('#user_mail').keyup(checkUserEmail); 
+        });
+    </script>
+    <div id="head-title">Registration</div>
+    <div class="error" id="error"></div>
+    <!-- <form action="{% url 'my_auth:registration' %}" method="POST" class="form-horizontal"
+        enctype="myltipart/form-data" onsubmit="return validateForm();">
+        {% csrf_token %}
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="userMail">Your email: </label>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input class="form-control" type="text" id="userMail" name="user_mail">
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="userName">Your nickname: </label>
+            <div class="col-sm-5">    
+                <input class="form-control" type="text" id="userName" name="username">
+            </div>    
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="password">Password: </label>
+            <div class="col-sm-5">    
+                <input class="form-control" type="password" id="password" name="username">
+            </div>    
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="confirmPassword">Confirm password: </label>
+            <div class="col-sm-5">    
+                <input class="form-control" type="password" id="confirmPassword" name="username">
+            </div>    
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" for="image">Image: </label>
+            <div class="col-sm-5"> 
+                    <input id="image" type="file">
+            </div>
+        </div>
+
+        <div class="col-sm-2 control-label">
+            <input class="btn btn-default" type="submit" value="Register">
+        </div>
+    </form> -->
+
+    <form action="{{action}}" method="POST" class="form-horizontal"
+        enctype="myltipart/form-data" onsubmit="return validateForm();">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label" for="{{field.name}}">{{field.label}}</label>
+                <div class="col-sm-5">
+                    {% if field.name == 'user_mail' %}
+                      <div class="input-group">  
+                        <span class="input-group-addon">@</span>
+                    {% endif %}
+                    {% if field.name == 'images' %}
+                        {{field}}
+                    {% else %}
+                        <input class="form-control" type="{{field.field.widget.input_type}}" id="{{field.name}}" name="{{field.name}}">   
+                    {% endif %}
+                    {% if field.name == 'user_mail' %} </div> {% endif %}
+                </div>
+                    {% if field.name == 'user_mail' %} 
+                        <span id="mail_img" ></span>
+                        <input type="hidden" id="mail_status" value="">
+                    {% endif %}
+                    {% if field.field.required %} 
+                        <span class="required">* required</span> 
+                    {% endif %}
+            </div>
+        {% endfor %}
+        <div class="col-sm-2 control-label">
+            <input class="btn btn-default" type="submit" value="Register">
+        </div>
+    </form>
+
+{% endblock %}
+
+<!-- Check Captcha engine
+     make check_email in views end create link in url
+     put validator to check correct email spelling
+ -->

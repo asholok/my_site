@@ -13,7 +13,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150, unique=True)
     short_body = models.CharField(max_length=200)
-    body = models.TextField()
+    body = models.CharField(max_length=5000)
     author = models.ForeignKey(User)
     image = models.ImageField(upload_to=get_upload_path, blank=True)
     date = models.DateField(auto_now_add=True)

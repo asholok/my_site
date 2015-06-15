@@ -2,7 +2,7 @@
 {% block title %} {{post.title}} {% endblock %}
 {% block content %}
 	<div class="post-field" >
-		<div id="title">{{post.title}}</div>
+		<div id="head-title">{{post.title}}</div>
 		<div class="subtext">
 			<p>Author: {{post.author}}</p>
 			<p>Published: {{post.date}}</p>
@@ -14,9 +14,11 @@
 		<div class="comments-field">
 			{% for comment in comments %}
 				<div class="comment-block">
-					<div>{{comment.author}}</div>
-					<div class="subtext"> {{comment.date}} at {{comment.time}} </div>
-					<div>{{comment.content}}</div>
+					<div class="comment-header">
+						<div class="comment-header-author">{{comment.author}}</div>
+						<div class="comment-header-date"> {{comment.date}} at {{comment.time}} </div>
+					</div>
+					<div class="comment-content" >{{comment.content}}</div>
 				</div>
 			{% endfor %}
 			{% if request.session.user_name %}
