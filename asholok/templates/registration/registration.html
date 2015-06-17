@@ -17,23 +17,11 @@
                 }
             );
         }
-
-        function validateMailStr() {
-            var LIVR = require('livr');
-            LIVR.Validator.defaultAutoTrim(true);
-
-            var validator = new LIVR.Validator({
-                user_mail: 'email'
-            });
-            var chackedData = validator.validate({
-                user_mail: $("#user_mail").val()
-            });
-            if ( chackedData ){
-                return true;
-            }
-            return false;
-        }
-
+        
+        function validateEmail() {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            return re.test($("#user_mail").val());
+        }   
 
         function validateForm() {
             var userMail = $("#user_mail").val() == "";
@@ -52,15 +40,15 @@
             };
 
             if ( $("#password").val() != $("#confirm_password").val() ) {
-                $('#error').html("You not "+ $("#password").val() +" confirm a password "+ $("#confirm_password").val() +"!");
+                $('#error').html("You not confirm a password!");
                 return false;
             };
 
-            if ( !validateMailStr() ) {
+            if ( ! validateEmail() ) {
                 $('#error').html("Wrong email format!");
-                $("#mail_img").html("<img src='{% static '' %}img/no.png'>");
                 return false;
-            };
+            }
+
             return true;
         }
 
