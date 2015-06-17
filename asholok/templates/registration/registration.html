@@ -5,7 +5,7 @@
     <script type="text/javascript">
         function checkUserEmail() {
             $.get("{% url 'my_auth:check_email' %}", 
-                {user_mail: $("#user_mail").val()}, // csrfmiddlewaretoken: {% csrf_token %}},
+                {user_mail: $("#user_mail").val()},
                 function(data) {
                     if ( data == 'True' ) {
                         $("#mail_img").html("<img src='{% static '' %}img/ok.png'>");
@@ -18,11 +18,28 @@
             );
         }
 
+        function validateMailStr() {
+            var LIVR = require('livr');
+            LIVR.Validator.defaultAutoTrim(true);
+
+            var validator = new LIVR.Validator({
+                user_mail: 'email'
+            });
+            var chackedData = validator.validate({
+                user_mail: $("#user_mail").val()
+            });
+            if ( chackedData ){
+                return true;
+            }
+            return false;
+        }
+
+
         function validateForm() {
             var userMail = $("#user_mail").val() == "";
             var userName = $("#username").val() == "";
             var password = $("#password").val() == "";
-            var confirmPassword = $("#confirmp_assword").val() == "";
+            var confirmPassword = $("#confirm_password").val() == "";
 
             if ( userMail || userName || password || confirmPassword ) {
                 $('#error').html("fill required field!");
@@ -34,8 +51,14 @@
                 return false;
             };
 
-            if ( $("#password").val() != $("#confirmp_assword").val() ) {
-                $('#error').html("You not confirm a password!");
+            if ( $("#password").val() != $("#confirm_password").val() ) {
+                $('#error').html("You not "+ $("#password").val() +" confirm a password "+ $("#confirm_password").val() +"!");
+                return false;
+            };
+
+            if ( !validateMailStr() ) {
+                $('#error').html("Wrong email format!");
+                $("#mail_img").html("<img src='{% static '' %}img/no.png'>");
                 return false;
             };
             return true;
@@ -47,47 +70,6 @@
     </script>
     <div id="head-title">Registration</div>
     <div class="error" id="error"></div>
-    <!-- <form action="{% url 'my_auth:registration' %}" method="POST" class="form-horizontal"
-        enctype="myltipart/form-data" onsubmit="return validateForm();">
-        {% csrf_token %}
-        <div class="form-group form-group-sm">
-            <label class="col-sm-2 control-label" for="userMail">Your email: </label>
-            <div class="col-sm-5">
-                <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input class="form-control" type="text" id="userMail" name="user_mail">
-                </div>
-            </div>
-        </div>
-        <div class="form-group form-group-sm">
-            <label class="col-sm-2 control-label" for="userName">Your nickname: </label>
-            <div class="col-sm-5">    
-                <input class="form-control" type="text" id="userName" name="username">
-            </div>    
-        </div>
-        <div class="form-group form-group-sm">
-            <label class="col-sm-2 control-label" for="password">Password: </label>
-            <div class="col-sm-5">    
-                <input class="form-control" type="password" id="password" name="username">
-            </div>    
-        </div>
-        <div class="form-group form-group-sm">
-            <label class="col-sm-2 control-label" for="confirmPassword">Confirm password: </label>
-            <div class="col-sm-5">    
-                <input class="form-control" type="password" id="confirmPassword" name="username">
-            </div>    
-        </div>
-        <div class="form-group form-group-sm">
-            <label class="col-sm-2 control-label" for="image">Image: </label>
-            <div class="col-sm-5"> 
-                    <input id="image" type="file">
-            </div>
-        </div>
-
-        <div class="col-sm-2 control-label">
-            <input class="btn btn-default" type="submit" value="Register">
-        </div>
-    </form> -->
 
     <form action="{{action}}" method="POST" class="form-horizontal"
         enctype="myltipart/form-data" onsubmit="return validateForm();">
@@ -123,7 +105,4 @@
 
 {% endblock %}
 
-<!-- Check Captcha engine
-     make check_email in views end create link in url
-     put validator to check correct email spelling
- -->
+
